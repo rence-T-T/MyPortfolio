@@ -37,7 +37,7 @@ function renderFooter() {
   const year = new Date().getFullYear();
   return `
     <footer class="footer">
-      <p>Gion Terrence Pozon &mdash; Jose Rizal University &mdash; BS Computer Engineering</p>
+      <p>Gion Terrence Pozon · Jose Rizal University · BS Computer Engineering</p>
       <p style="margin-top: 0.25rem; font-size: 0.775rem;">&copy; ${year}. All rights reserved.</p>
     </footer>
   `;

@@ -59,6 +59,48 @@
       letter-spacing: 0.05em;
     }
 
+    /* PDF preview */
+    .achievement-pdf-preview {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border: none;
+      display: block;
+      background: var(--slate-light);
+      overflow: auto;
+    }
+
+    /* Link preview */
+    .achievement-link-preview {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: var(--slate-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      color: var(--text-secondary);
+    }
+
+    .achievement-link-preview svg {
+      opacity: 0.35;
+    }
+
+    .achievement-link-preview span {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* PDF / Link action bar */
+    .achievement-action {
+      padding: 0.9rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+
     @media (max-width: 768px) {
       .achievements-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -86,15 +128,60 @@
   <script src="assets/js/components.js"></script>
   <script>
     // ── RENDER ACHIEVEMENTS FROM achievementsData ─────────────
+    function isPlaceholderFile(file) {
+      return !file || file.includes('placeholder') || file.includes('REPLACE_WITH');
+    }
+
     function renderAchievementCard(item) {
-      const isPlaceholder = item.image.includes('placeholder') || !item.image;
-
-      const imageHtml = isPlaceholder
-        ? `<div class="achievement-img-placeholder">Image placeholder</div>`
-        : `<img src="${item.image}" alt="${item.title}" class="achievement-img"
-              onerror="this.outerHTML='<div class=\\'achievement-img-placeholder\\'>Image not found</div>'" />`;
-
       const titleIsPlaceholder = item.title.startsWith('[PLACEHOLDER]');
+
+      // Bottom section varies by type
+      let bottomHtml = '';
+
+      if (item.type === 'img') {
+        if (isPlaceholderFile(item.file)) {
+          bottomHtml = `<div class="achievement-img-placeholder">Image placeholder</div>`;
+        } else {
+          bottomHtml = `
+            <img src="${item.file}" alt="${item.title}" class="achievement-img"
+              onerror="this.outerHTML='<div class=\\'achievement-img-placeholder\\'>Image not found</div>'" />
+          `;
+        }
+      } else if (item.type === 'pdf') {
+        const isDisabled = isPlaceholderFile(item.file);
+        const preview = isDisabled
+          ? `<div class="achievement-img-placeholder">PDF placeholder</div>`
+          : `<iframe src="${item.file}" class="achievement-pdf-preview" title="${item.title}"></iframe>`;
+        bottomHtml = `
+          ${preview}
+          <div class="achievement-action">
+            <span class="tag">PDF</span>
+            ${isDisabled
+              ? `<button class="btn btn-outline" disabled style="opacity:0.45; cursor:not-allowed;">View PDF</button>`
+              : `<a href="${item.file}" target="_blank" class="btn btn-slate">View PDF</a>`
+            }
+          </div>
+        `;
+      } else {
+        // link
+        const isDisabled = isPlaceholderFile(item.file);
+        bottomHtml = `
+          <div class="achievement-link-preview">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <span>External Link</span>
+          </div>
+          <div class="achievement-action">
+            <span class="tag">LINK</span>
+            ${isDisabled
+              ? `<button class="btn btn-outline" disabled style="opacity:0.45; cursor:not-allowed;">Open Link</button>`
+              : `<a href="${item.file}" target="_blank" class="btn btn-slate">Open Link</a>`
+            }
+          </div>
+        `;
+      }
 
       return `
         <div class="achievement-card">
@@ -104,7 +191,7 @@
               : `<h3 class="achievement-title">${item.title}</h3>`
             }
           </div>
-          ${imageHtml}
+          ${bottomHtml}
         </div>
       `;
     }

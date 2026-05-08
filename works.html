@@ -150,6 +150,42 @@
       padding-top: 0.5rem;
     }
 
+    /* Preview area */
+    .artifact-preview {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .artifact-pdf-preview {
+      width: 100%;
+      height: 220px;
+      border: none;
+      display: block;
+      background: var(--slate-light);
+      overflow: auto;
+    }
+
+    .artifact-link-preview {
+      width: 100%;
+      height: 220px;
+      background: var(--slate-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      color: var(--text-secondary);
+    }
+
+    .artifact-link-preview svg { opacity: 0.3; }
+
+    .artifact-link-preview span {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
     @media (max-width: 768px) {
       .artifacts-grid { grid-template-columns: 1fr; padding: 1.25rem; }
       .tabs-wrap { padding: 0 1rem; }
@@ -177,21 +213,34 @@
   <script src="assets/js/components.js"></script>
   <script>
     // ── RENDER WORKS PAGE FROM portfolioData ─────────────────
-    function getButtonLabel(type) {
-      return type === 'pdf' ? 'View PDF' : 'Watch / View';
-    }
-
     function isPlaceholder(url) {
       return url.includes('REPLACE_WITH') || url.includes('placeholder');
     }
 
     function renderArtifactCard(artifact) {
-      const isLink = artifact.type === 'link';
-      const btnLabel = getButtonLabel(artifact.type);
+      const btnLabel = artifact.type === 'pdf' ? 'View PDF' : 'Watch / View';
       const btnDisabled = isPlaceholder(artifact.file);
 
       const outcomeIsPlaceholder = artifact.outcomes.startsWith('[PLACEHOLDER]');
       const goalIsPlaceholder = artifact.personalGoals.startsWith('[PLACEHOLDER]');
+
+      let previewHtml = '';
+      if (artifact.type === 'pdf') {
+        previewHtml = btnDisabled
+          ? `<div class="artifact-preview"><div class="artifact-link-preview"><span>PDF placeholder</span></div></div>`
+          : `<div class="artifact-preview"><iframe src="${artifact.file}" class="artifact-pdf-preview" title="${artifact.title}"></iframe></div>`;
+      } else {
+        previewHtml = `
+          <div class="artifact-preview">
+            <div class="artifact-link-preview">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+              </svg>
+              <span>External Link</span>
+            </div>
+          </div>`;
+      }
 
       return `
         <div class="artifact-card">
@@ -200,6 +249,8 @@
             <h3 class="artifact-title">${artifact.title}</h3>
             <span class="tag artifact-type-tag">${artifact.type.toUpperCase()}</span>
           </div>
+
+          ${previewHtml}
 
           <p class="artifact-desc">${artifact.description}</p>
 
