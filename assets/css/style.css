@@ -1,0 +1,267 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Figtree:wght@300;400;500;600&display=swap');
+
+:root {
+  --white: #ffffff;
+  --bg: #f9fafb;
+  --text: #111827;
+  --text-secondary: #6b7280;
+  --slate: #475569;
+  --slate-dark: #334155;
+  --slate-light: #f1f5f9;
+  --slate-mid: #cbd5e1;
+  --border: #e5e7eb;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Figtree', sans-serif;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.05);
+  --transition: 0.22s ease;
+  --max-width: 1100px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--white);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+/* ── NAVBAR ─────────────────────────────────────────────── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color var(--transition);
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--slate);
+  transition: width var(--transition);
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--slate-dark); }
+
+.nav-links a:hover::after,
+.nav-links a.active::after { width: 100%; }
+
+/* Hamburger for mobile */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px; height: 1.5px;
+  background: var(--text);
+  transition: var(--transition);
+}
+
+/* ── PAGE WRAPPER ───────────────────────────────────────── */
+.page-wrapper {
+  padding-top: 60px;
+  min-height: 100vh;
+}
+
+/* ── PAGE HEADER ────────────────────────────────────────── */
+.page-header {
+  padding: 4rem 2rem 3rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-header-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--slate);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--text);
+}
+
+/* ── SECTION ────────────────────────────────────────────── */
+.section {
+  padding: 4rem 2rem;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--slate);
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+/* ── CARD ───────────────────────────────────────────────── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+/* ── BUTTON ─────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.825rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border-radius: 6px;
+  transition: var(--transition);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-slate {
+  background: var(--slate);
+  color: var(--white);
+}
+
+.btn-slate:hover { background: var(--slate-dark); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--slate);
+  border: 1.5px solid var(--slate-mid);
+}
+
+.btn-outline:hover {
+  border-color: var(--slate);
+  background: var(--slate-light);
+}
+
+/* ── GRID ───────────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+}
+
+/* ── DIVIDER ────────────────────────────────────────────── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* ── PILL TAG ───────────────────────────────────────────── */
+.tag {
+  display: inline-block;
+  background: var(--slate-light);
+  color: var(--slate-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+}
+
+/* ── PLACEHOLDER NOTICE ────────────────────────────────── */
+.placeholder-text {
+  color: #f59e0b;
+  font-style: italic;
+  font-size: 0.875rem;
+  background: #fffbeb;
+  border: 1px dashed #fcd34d;
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem;
+}
+
+/* ── MOBILE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 60px; left: 0; right: 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    gap: 1.2rem;
+  }
+
+  .nav-links.open { display: flex; }
+  .nav-toggle { display: flex; }
+
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+
+  .page-header { padding: 2.5rem 1.25rem 2rem; }
+  .section { padding: 2.5rem 1.25rem; }
+}

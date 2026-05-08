@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Gion Terrence Pozon</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 4rem;
+      align-items: start;
+      margin-top: 3rem;
+    }
+
+    .about-bio {
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.85;
+    }
+
+    .about-bio p + p { margin-top: 1.25rem; }
+
+    .about-sidebar-photo {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .about-meta {
+      margin-top: 1.5rem;
+    }
+
+    .meta-row {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.875rem;
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .meta-row:last-child { border-bottom: none; }
+
+    .meta-label {
+      color: var(--text-secondary);
+      min-width: 90px;
+      font-weight: 500;
+    }
+
+    .meta-value { color: var(--text); }
+
+    /* Skills */
+    .skills-section { margin-top: 3rem; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .skill-group {
+      background: var(--slate-light);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .skill-group-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--slate-dark);
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .skill-list li {
+      font-size: 0.875rem;
+      color: var(--text);
+    }
+
+    .skill-list li::before {
+      content: '—  ';
+      color: var(--slate);
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-sidebar-photo { max-width: 260px; margin: 0 auto; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .skills-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <div class="page-header">
+      <p class="page-header-label">Who I Am</p>
+      <h1>About Me</h1>
+    </div>
+
+    <div class="section">
+
+      <div class="about-grid">
+
+        <!-- Bio -->
+        <div>
+          <div class="about-bio">
+            <p>
+              Gion Terrence Pozon is a third-year Computer Engineering student at Jose Rizal University.
+              His academic focus spans artificial intelligence, embedded systems, and software development,
+              with hands-on experience building intelligent systems for real-world applications.
+            </p>
+            <p>
+              He has worked on projects ranging from image classification using convolutional neural networks
+              to IoT-based physical systems, and he is experienced in deploying machine learning models
+              to mobile platforms. He approaches engineering problems with a practical mindset, prioritizing
+              solutions that are functional, efficient, and impactful.
+            </p>
+            <p>
+              Outside the classroom, he participates in programming competitions and continues to develop
+              his technical skills independently. He is driven by a commitment to grow as an engineer
+              and to contribute meaningfully to the field of computing.
+            </p>
+          </div>
+
+          <!-- Meta info -->
+          <div class="about-meta">
+            <div class="meta-row">
+              <span class="meta-label">School</span>
+              <span class="meta-value">Jose Rizal University</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Program</span>
+              <span class="meta-value">BS Computer Engineering</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Year</span>
+              <span class="meta-value">3rd Year</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Location</span>
+              <span class="meta-value">Pasig City, Philippines</span>
+            </div>
+          </div>
+
+          
+        </div>
+
+        <!-- Sidebar photo -->
+        <div>
+          <!--
+            INSTRUCTIONS: This uses the same profile photo as the homepage.
+            Replace "assets/img/profile.jpg" with your actual photo file.
+          -->
+          <img
+            src="assets/img/profile.jpg"
+            alt="Gion Terrence Pozon"
+            class="about-sidebar-photo"
+            onerror="this.style.background='#f1f5f9'; this.style.minHeight='340px';"
+          />
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script src="assets/js/components.js"></script>
+  <script>initPage('about')</script>
+</body>
+</html>

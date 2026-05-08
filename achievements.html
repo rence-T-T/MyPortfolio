@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Achievements — Gion Terrence Pozon</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .achievement-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .achievement-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+
+    .achievement-card-body {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .achievement-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .achievement-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      display: block;
+      background: var(--slate-light);
+    }
+
+    /* Placeholder image style */
+    .achievement-img-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: var(--slate-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 768px) {
+      .achievements-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .achievements-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <div class="page-header">
+      <p class="page-header-label">Competitions and Certificates</p>
+      <h1>Achievements</h1>
+    </div>
+
+    <div class="section">
+      <div class="achievements-grid" id="achievementsGrid"></div>
+    </div>
+
+  </div>
+
+  <script src="data/achievements.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script>
+    // ── RENDER ACHIEVEMENTS FROM achievementsData ─────────────
+    function renderAchievementCard(item) {
+      const isPlaceholder = item.image.includes('placeholder') || !item.image;
+
+      const imageHtml = isPlaceholder
+        ? `<div class="achievement-img-placeholder">Image placeholder</div>`
+        : `<img src="${item.image}" alt="${item.title}" class="achievement-img"
+              onerror="this.outerHTML='<div class=\\'achievement-img-placeholder\\'>Image not found</div>'" />`;
+
+      const titleIsPlaceholder = item.title.startsWith('[PLACEHOLDER]');
+
+      return `
+        <div class="achievement-card">
+          <div class="achievement-card-body">
+            ${titleIsPlaceholder
+              ? `<p class="placeholder-text">${item.title}</p>`
+              : `<h3 class="achievement-title">${item.title}</h3>`
+            }
+          </div>
+          ${imageHtml}
+        </div>
+      `;
+    }
+
+    function renderAchievements() {
+      const grid = document.getElementById('achievementsGrid');
+      grid.innerHTML = achievementsData.map(renderAchievementCard).join('');
+    }
+
+    renderAchievements();
+    initPage('achievements');
+  </script>
+</body>
+</html>

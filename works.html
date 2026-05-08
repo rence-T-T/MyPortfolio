@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relevant Works — Gion Terrence Pozon</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    /* ── COURSE TABS ────────────────────────────────────────── */
+    .tabs-wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 1rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color var(--transition), border-color var(--transition);
+      margin-bottom: -1px;
+    }
+
+    .tab-btn:hover { color: var(--text); }
+
+    .tab-btn.active {
+      color: var(--slate-dark);
+      border-bottom-color: var(--slate);
+    }
+
+    /* ── COURSE SECTION ─────────────────────────────────────── */
+    .course-section { display: none; }
+    .course-section.active { display: block; }
+
+    .course-intro {
+      padding: 2.5rem 2rem 1rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .course-code {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--slate);
+    }
+
+    .course-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      margin-top: 0.3rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .course-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    /* ── ARTIFACT CARDS ─────────────────────────────────────── */
+    .artifacts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      padding: 2rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding-bottom: 4rem;
+    }
+
+    .artifact-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: box-shadow var(--transition), transform var(--transition);
+    }
+
+    .artifact-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .artifact-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .artifact-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .artifact-type-tag {
+      flex-shrink: 0;
+    }
+
+    .artifact-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Write-up sections */
+    .writeup-section {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+
+    .writeup-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--slate);
+      margin-bottom: 0.5rem;
+    }
+
+    .writeup-text {
+      font-size: 0.875rem;
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .artifact-footer {
+      margin-top: auto;
+      padding-top: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .artifacts-grid { grid-template-columns: 1fr; padding: 1.25rem; }
+      .tabs-wrap { padding: 0 1rem; }
+      .course-intro { padding: 2rem 1.25rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <div class="page-header">
+      <p class="page-header-label">Academic Output</p>
+      <h1>Relevant Works</h1>
+    </div>
+
+    <!-- Course Tabs -->
+    <div class="tabs-wrap" id="courseTabs"></div>
+
+    <!-- Course Sections -->
+    <div id="courseSections"></div>
+
+  </div>
+
+  <script src="data/portfolio.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script>
+    // ── RENDER WORKS PAGE FROM portfolioData ─────────────────
+    function getButtonLabel(type) {
+      return type === 'pdf' ? 'View PDF' : 'Watch / View';
+    }
+
+    function isPlaceholder(url) {
+      return url.includes('REPLACE_WITH') || url.includes('placeholder');
+    }
+
+    function renderArtifactCard(artifact) {
+      const isLink = artifact.type === 'link';
+      const btnLabel = getButtonLabel(artifact.type);
+      const btnDisabled = isPlaceholder(artifact.file);
+
+      const outcomeIsPlaceholder = artifact.outcomes.startsWith('[PLACEHOLDER]');
+      const goalIsPlaceholder = artifact.personalGoals.startsWith('[PLACEHOLDER]');
+
+      return `
+        <div class="artifact-card">
+
+          <div class="artifact-header">
+            <h3 class="artifact-title">${artifact.title}</h3>
+            <span class="tag artifact-type-tag">${artifact.type.toUpperCase()}</span>
+          </div>
+
+          <p class="artifact-desc">${artifact.description}</p>
+
+          <div class="writeup-section">
+            <p class="writeup-label">CpE Student Outcomes</p>
+            ${outcomeIsPlaceholder
+              ? `<p class="placeholder-text">${artifact.outcomes}</p>`
+              : `<p class="writeup-text">${artifact.outcomes}</p>`
+            }
+          </div>
+
+          <div class="writeup-section">
+            <p class="writeup-label">Contribution to Personal Goals</p>
+            ${goalIsPlaceholder
+              ? `<p class="placeholder-text">${artifact.personalGoals}</p>`
+              : `<p class="writeup-text">${artifact.personalGoals}</p>`
+            }
+          </div>
+
+          <div class="artifact-footer">
+            ${btnDisabled
+              ? `<button class="btn btn-outline" disabled style="opacity:0.45; cursor:not-allowed;">${btnLabel}</button>`
+              : `<a href="${artifact.file}" target="_blank" class="btn btn-slate">${btnLabel}</a>`
+            }
+          </div>
+
+        </div>
+      `;
+    }
+
+    function renderCourseSection(course, index) {
+      const cards = course.artifacts.map(renderArtifactCard).join('');
+      return `
+        <div class="course-section ${index === 0 ? 'active' : ''}" id="section-${course.courseId}">
+          <div class="course-intro">
+            <p class="course-code">${course.courseCode}</p>
+            <h2 class="course-title">${course.courseTitle}</h2>
+            <p class="course-desc">${course.description}</p>
+          </div>
+          <div class="artifacts-grid">${cards}</div>
+        </div>
+      `;
+    }
+
+    function renderTabs() {
+      const tabsEl = document.getElementById('courseTabs');
+      const sectionsEl = document.getElementById('courseSections');
+
+      tabsEl.innerHTML = portfolioData.map((course, i) => `
+        <button
+          class="tab-btn ${i === 0 ? 'active' : ''}"
+          data-target="section-${course.courseId}"
+          onclick="switchTab(this)"
+        >
+          ${course.courseCode} — ${course.courseTitle}
+        </button>
+      `).join('');
+
+      sectionsEl.innerHTML = portfolioData.map((course, i) =>
+        renderCourseSection(course, i)
+      ).join('');
+    }
+
+    function switchTab(btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.course-section').forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+    }
+
+    renderTabs();
+    initPage('works');
+  </script>
+</body>
+</html>
